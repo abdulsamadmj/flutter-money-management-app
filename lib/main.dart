@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:money_management_app/models/category/category_model.dart';
 import 'package:money_management_app/screens/home/screen_home.dart';
+import 'package:money_management_app/screens/transactions/add-transaction.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: ScreenHome(),
+      routes: {
+        AddTransaction.routeName: (ctx) => AddTransaction(),
+      },
     );
   }
 }

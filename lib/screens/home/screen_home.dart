@@ -3,6 +3,7 @@ import 'package:money_management_app/db/category/category_db.dart';
 import 'package:money_management_app/models/category/category_model.dart';
 import 'package:money_management_app/screens/category/screen_category.dart';
 import 'package:money_management_app/screens/category/widget/category_add_popup.dart';
+import 'package:money_management_app/screens/transactions/add-transaction.dart';
 import 'package:money_management_app/screens/transactions/screen_transaction.dart';
 import 'package:money_management_app/screens/transactions/widgets/bottom_nav.dart';
 
@@ -35,6 +36,7 @@ class ScreenHome extends StatelessWidget {
         onPressed: () {
           if (selectedIndexNotifier.value == 0) {
             print('add transaction');
+            Navigator.of(context).pushNamed(AddTransaction.routeName);
           } else {
             ShowCategoryAddPopup(context);
 
