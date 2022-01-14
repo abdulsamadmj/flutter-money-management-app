@@ -16,6 +16,14 @@ class _AddTransactionState extends State<AddTransaction> {
   CategoryType? _selectedCategoryType;
   CategoryModel? _selectedCategoryModel;
 
+  String? _categoryID;
+
+  @override
+  void initState() {
+    _selectedCategoryType = CategoryType.income;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,17 +32,22 @@ class _AddTransactionState extends State<AddTransaction> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
+              //purose
               TextFormField(
                 decoration: const InputDecoration(
                   hintText: 'Purpose',
                 ),
               ),
+
+              //amount
               TextFormField(
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   hintText: 'Amount',
                 ),
               ),
+
+              //datepicker
               TextButton.icon(
                 onPressed: () async {
                   final _selectedDateTemp = await showDatePicker(
@@ -59,15 +72,22 @@ class _AddTransactionState extends State<AddTransaction> {
                     ? 'Select Date'
                     : _selectedDate.toString()),
               ),
+
+              //CategoryType
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
                     children: [
                       Radio(
-                        value: false,
-                        groupValue: CategoryType.income,
-                        onChanged: (newValue) {},
+                        value: CategoryType.income,
+                        groupValue: _selectedCategoryType,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedCategoryType = CategoryType.income;
+                            _categoryID = null;
+                          });
+                        },
                       ),
                       Text('Income'),
                     ],
@@ -75,19 +95,29 @@ class _AddTransactionState extends State<AddTransaction> {
                   Row(
                     children: [
                       Radio(
-                        value: false,
-                        groupValue: CategoryType.expense,
-                        onChanged: (newValue) {},
+                        value: CategoryType.expense,
+                        groupValue: _selectedCategoryType,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _selectedCategoryType = CategoryType.expense;
+                            _categoryID = null;
+                          });
+                        },
                       ),
                       Text('Expense'),
                     ],
                   ),
                 ],
               ),
-              DropdownButton(
+
+              //Category
+              DropdownButton<String>(
                   hint: Text('Select Category'),
-                  //value: ,
-                  items: CategoryDb.instance.incomeCategoryListListener.value
+                  value: _categoryID,
+                  items: (_selectedCategoryType == CategoryType.income
+                          ? CategoryDb.instance.incomeCategoryListListener
+                          : CategoryDb.instance.expenseCategoryListListener)
+                      .value
                       .map((e) {
                     return DropdownMenuItem(
                       value: e.id,
@@ -96,11 +126,14 @@ class _AddTransactionState extends State<AddTransaction> {
                   }).toList(),
                   onChanged: (selectedValue) {
                     print(selectedValue);
+                    setState(() {
+                      _categoryID = selectedValue;
+                    });
                   }),
               ElevatedButton.icon(
                 onPressed: () {},
-                icon: Icon(Icons.add),
-                label: Text('Add'),
+                icon: const Icon(Icons.add),
+                label: const Text('Add'),
               ),
             ],
           ),
