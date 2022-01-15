@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:money_management_app/db/category/category_db.dart';
 import 'package:money_management_app/db/transactions/transaction_db.dart';
@@ -20,25 +21,32 @@ class ScreenTransactions extends StatelessWidget {
           //values
           itemBuilder: (ctx, index) {
             final _value = newList[index];
-            return Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 50,
-                  child: Text(
-                    parseDate(_value.date),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+            return Slidable(
+              key: Key(_value.id!),
+              startActionPane: ActionPane(motion: ScrollMotion(), children: [
+                SlidableAction(
+                  onPressed: (ctx) {
+                    TransactionDB.instance.deleteTransaction(_value.id!);
+                  },
+                  icon: Icons.delete,
+                  label: 'Delete',
+                )
+              ]),
+              child: Card(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 50,
+                    child: Text(
+                      parseDate(_value.date),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: _value.type == CategoryType.income
+                        ? Colors.green
+                        : Colors.red,
                   ),
-                  backgroundColor: _value.type == CategoryType.income
-                      ? Colors.green
-                      : Colors.red,
-                ),
-                title: Text('Rs.${_value.amount}'),
-                subtitle: Text(_value.category.name),
-                trailing: IconButton(
-                  color: Colors.red,
-                  onPressed: () {},
-                  icon: const Icon(Icons.delete),
+                  title: Text('Rs.${_value.amount}'),
+                  subtitle: Text(_value.category.name),
                 ),
               ),
             );
