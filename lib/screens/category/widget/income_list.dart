@@ -16,13 +16,23 @@ class IncomeCategory extends StatelessWidget {
               return Card(
                 child: ListTile(
                   title: Text(category.name),
+                  leading: IconButton(
+                    color: Colors.blue,
+                    onPressed: () {
+                      //update screen
+                    },
+                    icon: const Icon(Icons.edit),
+                  ),
                   trailing: IconButton(
                     color: Colors.red,
                     onPressed: () {
-                      CategoryDb.instance.deleteCategory(category.id);
+                      CategoryDb.instance.deleteCategory(category.id); //alert
                     },
                     icon: const Icon(Icons.delete),
                   ),
+                  onTap: () {
+                    //transactions under category.id
+                  },
                 ),
               );
             },

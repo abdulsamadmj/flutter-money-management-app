@@ -15,14 +15,24 @@ class ExpenseCategory extends StatelessWidget {
               final category = newList[index];
               return Card(
                 child: ListTile(
+                  leading: IconButton(
+                    color: Colors.blue,
+                    onPressed: () {
+                      //update screen
+                    },
+                    icon: const Icon(Icons.edit),
+                  ),
                   title: Text(category.name),
                   trailing: IconButton(
                     color: Colors.red,
                     onPressed: () {
-                      CategoryDb.instance.deleteCategory(category.id);
+                      CategoryDb.instance.deleteCategory(category.id); //alert
                     },
                     icon: const Icon(Icons.delete),
                   ),
+                  onTap: () {
+                    //transactions under category.name
+                  },
                 ),
               );
             },

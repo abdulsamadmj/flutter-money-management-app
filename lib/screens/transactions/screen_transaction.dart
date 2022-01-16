@@ -30,6 +30,7 @@ class ScreenTransactions extends StatelessWidget {
                   },
                   icon: Icons.delete,
                   label: 'Delete',
+                  foregroundColor: Colors.red,
                 )
               ]),
               child: Card(
